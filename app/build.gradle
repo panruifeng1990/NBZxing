@@ -1,0 +1,55 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+
+android {
+    signingConfigs {
+        release {
+            storeFile file("$rootDir/nbzxing.jks")
+            storePassword 'shuai1234'
+            keyAlias 'key0'
+            keyPassword 'shuai1234'
+        }
+    }
+    compileSdkVersion 30
+    defaultConfig {
+        applicationId "com.android.NBZxing"
+        minSdkVersion 17
+        targetSdkVersion 30
+        versionCode 22
+        versionName "1.40"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        signingConfig signingConfigs.release
+        compileOptions {
+            sourceCompatibility JavaVersion.VERSION_1_8
+            targetCompatibility JavaVersion.VERSION_1_8
+        }
+    }
+    buildTypes {
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+
+        debug {
+            minifyEnabled false
+            shrinkResources false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+
+    }
+}
+
+dependencies {
+    implementation project(path: ':module_camera')
+    api "androidx.appcompat:appcompat:1.1.0"
+    implementation 'com.zhihu.android:matisse:0.5.3-beta3'
+    api "com.github.bumptech.glide:glide:4.11.0"
+    api 'com.tencent.bugly:crashreport:3.2.3'
+//
+
+//    implementation 'com.github.ailiwean:NBZxing-Scale:0.0.5'
+//    implementation 'com.github.ailiwean:NBZxing:0.1.1'
+
+}

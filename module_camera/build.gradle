@@ -1,0 +1,68 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+apply plugin: 'com.github.dcendents.android-maven'
+group = 'com.github.ailiwean'
+
+android {
+    compileSdkVersion 29
+    resourcePrefix "camera_"
+    defaultConfig {
+        minSdkVersion 17
+        compileOptions {
+            sourceCompatibility JavaVersion.VERSION_1_8
+            targetCompatibility JavaVersion.VERSION_1_8
+        }
+        externalNativeBuild {
+            cmake {
+//                cppFlags "-std=c++11 -frtti -fexceptions -pthread"
+//                cppFlags "-std=c++11 -pthread"
+                abiFilters "armeabi-v7a", "arm64-v8a"
+            }
+        }
+
+    }
+    sourceSets {
+        main.java.srcDirs += 'src/main/base'
+        main.java.srcDirs += 'src/main/api14'
+        main.java.srcDirs += 'src/main/api21'
+        main.java.srcDirs += 'src/main/api23'
+
+        main.jniLibs.srcDirs = ['libs']
+    }
+}
+
+dependencies {
+    implementation project(":module_grayscale")
+    api "androidx.appcompat:appcompat:1.1.0"
+//    implementation 'com.github.ailiwean:NBZxing-Scale:0.0.2'
+}
+
+tasks.withType(JavaCompile) {
+    options.encoding = "UTF-8"
+}
+
+// 打包源码
+task sourcesJar(type: Jar) {
+    from android.sourceSets.main.java.srcDirs
+    classifier = 'sources'
+}
+
+task javadoc(type: Javadoc) {
+    failOnError false
+    source = android.sourceSets.main.java.sourceFiles
+    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+    classpath += configurations.compile
+}
+
+// 制作文档(Javadoc)
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
+artifacts {
+    archives sourcesJar
+    archives javadocJar
+}
