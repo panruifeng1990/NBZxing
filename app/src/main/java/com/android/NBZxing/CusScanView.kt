@@ -1,6 +1,7 @@
 package com.android.NBZxing
 
 import android.content.Context
+import android.text.TextUtils
 import android.util.AttributeSet
 import android.widget.Toast
 import com.ailiwean.core.Result
@@ -19,7 +20,11 @@ import com.google.android.cameraview.AspectRatio
 class CusScanView @JvmOverloads constructor(context: Context, attributeSet: AttributeSet? = null, def: Int = 0) : NBZxingView(context, attributeSet, def) {
 
     override fun resultBack(content: Result) {
+        if (!TextUtils.isEmpty(content.text))
         Toast.makeText(context, content.text, Toast.LENGTH_LONG).show()
+        else {
+            Toast.makeText(context, content.text + "空", Toast.LENGTH_LONG).show()
+        }
     }
 
     /***
