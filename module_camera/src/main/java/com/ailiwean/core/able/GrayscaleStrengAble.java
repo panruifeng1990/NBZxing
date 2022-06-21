@@ -2,6 +2,7 @@ package com.ailiwean.core.able;
 
 import android.graphics.PointF;
 import android.os.Handler;
+import android.util.Log;
 
 import com.ailiwean.core.Config;
 import com.ailiwean.core.helper.ScanHelper;
@@ -47,11 +48,18 @@ class GrayscaleStrengAble extends PixsValuesAble {
 
     protected com.ailiwean.core.Result covertResult(Result result) {
         com.ailiwean.core.Result result_ = new com.ailiwean.core.Result();
-        PointF[] pointFS = ScanHelper.rotatePoint(result.getResultPoints());
-        result_.setQrPointF(ScanHelper.calCenterPointF(pointFS));
-        result_.setQrLeng(ScanHelper.calQrLenghtShow(result.getResultPoints()));
-        result_.setFormat(result.getBarcodeFormat());
-        result_.setQrRotate(ScanHelper.calQrRotate(pointFS));
+        if (result != null) {
+            try {
+                PointF[] pointFS = ScanHelper.rotatePoint(result.getResultPoints());
+                result_.setQrPointF(ScanHelper.calCenterPointF(pointFS));
+                result_.setQrLeng(ScanHelper.calQrLenghtShow(result.getResultPoints()));
+                result_.setFormat(result.getBarcodeFormat());
+                result_.setQrRotate(ScanHelper.calQrRotate(pointFS));
+            } catch (Exception e) {
+                Log.w("GrayscaleStrengAble", "result: " + result, e);
+                return result_;
+            }
+        }
         return result_;
     }
 

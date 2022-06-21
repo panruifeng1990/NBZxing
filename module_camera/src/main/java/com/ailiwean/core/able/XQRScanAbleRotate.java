@@ -2,6 +2,7 @@ package com.ailiwean.core.able;
 
 import android.graphics.PointF;
 import android.os.Handler;
+import android.util.Log;
 
 import com.ailiwean.core.Config;
 import com.ailiwean.core.helper.ScanHelper;
@@ -48,13 +49,20 @@ public class XQRScanAbleRotate extends PixsValuesAble {
 
     protected com.ailiwean.core.Result covertResultRotate(Result result) {
         com.ailiwean.core.Result result_ = new com.ailiwean.core.Result();
-        result_.setText(result.getText());
-        PointF[] pointFS = ScanHelper.rotatePointR(result.getResultPoints());
-        result_.setQrPointF(ScanHelper.calCenterPointF(pointFS));
-        result_.setQrLeng(ScanHelper.calQrLenghtShow(result.getResultPoints()));
-        result_.setFormat(result.getBarcodeFormat());
-        result_.setQrRotate(ScanHelper.calQrRotate(pointFS));
-        result_.setRotate(true);
+        if (result != null) {
+            try {
+                result_.setText(result.getText());
+                PointF[] pointFS = ScanHelper.rotatePointR(result.getResultPoints());
+                result_.setQrPointF(ScanHelper.calCenterPointF(pointFS));
+                result_.setQrLeng(ScanHelper.calQrLenghtShow(result.getResultPoints()));
+                result_.setFormat(result.getBarcodeFormat());
+                result_.setQrRotate(ScanHelper.calQrRotate(pointFS));
+                result_.setRotate(true);
+            } catch (Exception e) {
+                Log.w("XQRScanAbleRotate", "result: " + result, e);
+                return result_;
+            }
+        }
         return result_;
     }
 }

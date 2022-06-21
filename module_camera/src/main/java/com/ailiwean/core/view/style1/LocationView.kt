@@ -25,10 +25,12 @@ class LocationView @JvmOverloads constructor(context: Context, attributeSet: Att
     }
 
     override fun toLocation(result: Result, run: Runnable) {
-        var qrPoint = result.qrPointF
+        if (result != null && result.qrPointF != null) {
+            var qrPoint = result.qrPointF
+            translationX = (qrPoint.x - layoutParams.width / 2)
+            translationY = (qrPoint.y - layoutParams.height / 2)
+        }
         visibility = View.VISIBLE
-        translationX = (qrPoint.x - layoutParams.width / 2)
-        translationY = (qrPoint.y - layoutParams.height / 2)
         scaleX = 0f
         scaleY = 0f
         animate().scaleX(1f)
