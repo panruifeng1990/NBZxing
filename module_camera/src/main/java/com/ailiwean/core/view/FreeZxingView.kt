@@ -12,6 +12,7 @@ import android.view.LayoutInflater
 import android.view.View
 import com.ailiwean.core.Config.*
 import com.ailiwean.core.Result
+import com.ailiwean.core.Utils
 import com.ailiwean.core.able.AbleManager
 import com.ailiwean.core.helper.ImgparseHelper
 import com.ailiwean.core.helper.VibrateHelper
@@ -162,10 +163,12 @@ abstract class FreeZxingView @JvmOverloads constructor(context: Context, attribu
         scanBarView?.stopScanAnimator()
 
         //播放音频
-        VibrateHelper.playVibrate()
+        if (Utils.getContext() != null)
+            VibrateHelper.playVibrate()
 
         //震动
-        VibrateHelper.playBeep()
+        if (Utils.getContext() != null)
+            VibrateHelper.playBeep()
 
     }
 
@@ -234,7 +237,8 @@ abstract class FreeZxingView @JvmOverloads constructor(context: Context, attribu
         //重新接收数据
         busHandle.enable(true)
         //音频资源加载
-        VibrateHelper.playInit()
+        if (Utils.getContext() != null)
+            VibrateHelper.playInit()
     }
 
     /***

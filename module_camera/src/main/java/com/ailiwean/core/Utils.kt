@@ -5,6 +5,7 @@ import android.app.Activity
 import android.content.ContentUris
 import android.content.Context
 import android.content.pm.PackageManager
+import android.content.res.Resources
 import android.database.Cursor
 import android.graphics.ImageFormat
 import android.graphics.Rect
@@ -13,6 +14,7 @@ import android.net.Uri
 import android.os.Build
 import android.os.Environment
 import android.provider.MediaStore
+import android.util.Log
 import android.util.TypedValue
 import com.ailiwean.core.zxing.core.common.BitMatrix
 import java.io.*
@@ -38,7 +40,7 @@ object Utils {
     }
 
     fun dp2px(dpValue: Float): Int {
-        return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dpValue, getContext()?.resources?.displayMetrics).toInt()
+        return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dpValue, Resources.getSystem().displayMetrics).toInt()
     }
 
     fun readFile(fileName: String?): ByteArray? {
